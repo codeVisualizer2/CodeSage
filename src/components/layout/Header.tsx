@@ -1,7 +1,9 @@
 import React from "react";
-import { Moon, Sun, Code } from "lucide-react";
+import { Moon, Sun, Code, LogIn, UserPlus } from "lucide-react";
 import { Button } from "../ui/button";
 import { useTheme } from "../ui/theme-provider";
+import { useAuth } from "@/contexts/AuthContext";
+import { Link } from "react-router-dom";
 
 interface HeaderProps {
   title?: string;
@@ -14,6 +16,7 @@ const Header = ({ title = "Code Stage" }: HeaderProps) => {
     theme: "light",
     setTheme: () => {},
   };
+  const { user, isAuthenticated, logout } = useAuth();
 
   const toggleTheme = () => {
     setTheme(theme === "dark" ? "light" : "dark");
@@ -39,6 +42,32 @@ const Header = ({ title = "Code Stage" }: HeaderProps) => {
             <Moon className="h-5 w-5" />
           )}
         </Button>
+
+        {isAuthenticated ? (
+          <div className="flex items-center space-x-4">
+            <span className="text-sm hidden md:inline-block">
+              Hello, {user?.name}
+            </span>
+            <Button variant="outline" size="sm" onClick={logout}>
+              Logout
+            </Button>
+          </div>
+        ) : (
+          <div className="flex items-center space-x-2">
+            <Button variant="ghost" size="sm" asChild>
+              <Link to="/login">
+                <LogIn className="h-4 w-4 mr-2" />
+                Login
+              </Link>
+            </Button>
+            <Button variant="outline" size="sm" asChild>
+              <Link to="/login?tab=signup">
+                <UserPlus className="h-4 w-4 mr-2" />
+                Sign Up
+              </Link>
+            </Button>
+          </div>
+        )}
       </div>
     </header>
   );

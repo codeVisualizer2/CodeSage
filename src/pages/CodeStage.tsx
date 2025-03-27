@@ -1,7 +1,18 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { useTheme } from "../components/ui/theme-provider";
+import { useAuth } from "@/contexts/AuthContext";
 import { Button } from "@/components/ui/button";
-import { Moon, Sun, Code, BookOpen, LayoutGrid } from "lucide-react";
+import {
+  Moon,
+  Sun,
+  Code,
+  BookOpen,
+  LayoutGrid,
+  LogIn,
+  UserPlus,
+} from "lucide-react";
+import LoginDialog from "@/components/ui/dialog-login";
 import CodeEditor from "@/components/code-stage/CodeEditor";
 import VisualizationPane from "@/components/code-stage/VisualizationPane";
 import ExplanationPanel from "@/components/code-stage/ExplanationPanel";
@@ -14,9 +25,12 @@ import {
 
 const CodeStage: React.FC = () => {
   const { theme, setTheme } = useTheme();
+  const { isAuthenticated, user, logout } = useAuth();
+  const navigate = useNavigate();
   const [isRunning, setIsRunning] = useState<boolean>(false);
   const [currentStep, setCurrentStep] = useState<number>(0);
   const [totalSteps, setTotalSteps] = useState<number>(6);
+  const [loginDialogOpen, setLoginDialogOpen] = useState(false);
   const [code, setCode] = useState<string>(
     `// Write your LeetCode solution here\nfunction twoSum(nums, target) {\n  const map = new Map();\n  \n  for (let i = 0; i < nums.length; i++) {\n    const complement = target - nums[i];\n    \n    if (map.has(complement)) {\n      return [map.get(complement), i];\n    }\n    \n    map.set(nums[i], i);\n  }\n  \n  return [];\n}`,
   );
@@ -144,6 +158,11 @@ const CodeStage: React.FC = () => {
 
   return (
     <div className="flex flex-col h-screen bg-background">
+      <LoginDialog
+        open={loginDialogOpen}
+        onOpenChange={setLoginDialogOpen}
+        message="Sign in to save your progress and access all features."
+      />
       {/* Header */}
       <header className="h-16 border-b flex items-center justify-between px-6 bg-background">
         <div className="flex items-center space-x-2">
@@ -171,7 +190,35 @@ const CodeStage: React.FC = () => {
             <LayoutGrid className="h-4 w-4 mr-2" />
             Examples
           </Button>
-          <Button size="sm">Sign In</Button>
+          {isAuthenticated ? (
+            <div className="flex items-center space-x-4">
+              <span className="text-sm hidden md:inline-block">
+                Hello, {user?.name}
+              </span>
+              <Button variant="outline" size="sm" onClick={logout}>
+                Logout
+              </Button>
+            </div>
+          ) : (
+            <div className="flex items-center space-x-2">
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => navigate("/login")}
+              >
+                <LogIn className="h-4 w-4 mr-2" />
+                Login
+              </Button>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => navigate("/login?tab=signup")}
+              >
+                <UserPlus className="h-4 w-4 mr-2" />
+                Sign Up
+              </Button>
+            </div>
+          )}
         </div>
       </header>
 
