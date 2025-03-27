@@ -59,16 +59,16 @@ const LoginPage: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background flex flex-col items-center justify-center p-4">
+    <div className="flex flex-col items-center justify-center min-h-screen p-4 bg-background">
       <div className="w-full max-w-md">
         <div className="flex items-center justify-between mb-6">
           <div className="flex items-center space-x-2">
-            <Code className="h-6 w-6 text-primary" />
+            <Code className="w-6 h-6 text-primary" />
             <h1 className="text-xl font-bold">Code Stage</h1>
           </div>
           <Button variant="ghost" size="sm" asChild>
             <Link to="/">
-              <ArrowLeft className="h-4 w-4 mr-2" />
+              <ArrowLeft className="w-4 h-4 mr-2" />
               Back to Home
             </Link>
           </Button>
@@ -76,7 +76,7 @@ const LoginPage: React.FC = () => {
 
         <Card>
           <CardHeader>
-            <CardTitle>Welcome to Code Stage</CardTitle>
+            <CardTitle>Welcome to Code Sage</CardTitle>
             <CardDescription>
               Sign in to track your progress and save your visualizations
             </CardDescription>
@@ -94,7 +94,7 @@ const LoginPage: React.FC = () => {
 
             <TabsContent value="login">
               <form onSubmit={handleLogin}>
-                <CardContent className="space-y-4 pt-4">
+                <CardContent className="pt-4 space-y-4">
                   <div className="space-y-2">
                     <Label htmlFor="email">Email</Label>
                     <Input
@@ -137,7 +137,7 @@ const LoginPage: React.FC = () => {
 
             <TabsContent value="signup">
               <form onSubmit={handleSignup}>
-                <CardContent className="space-y-4 pt-4">
+                <CardContent className="pt-4 space-y-4">
                   <div className="space-y-2">
                     <Label htmlFor="name">Name</Label>
                     <Input

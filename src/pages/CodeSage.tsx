@@ -23,7 +23,7 @@ import {
   ResizableHandle,
 } from "@/components/ui/resizable";
 
-const CodeStage: React.FC = () => {
+const CodeSage: React.FC = () => {
   const { theme, setTheme } = useTheme();
   const { isAuthenticated, user, logout } = useAuth();
   const navigate = useNavigate();
@@ -164,9 +164,9 @@ const CodeStage: React.FC = () => {
         message="Sign in to save your progress and access all features."
       />
       {/* Header */}
-      <header className="h-16 border-b flex items-center justify-between px-6 bg-background">
+      <header className="flex items-center justify-between h-16 px-6 border-b bg-background">
         <div className="flex items-center space-x-2">
-          <Code className="h-6 w-6 text-primary" />
+          <Code className="w-6 h-6 text-primary" />
           <h1 className="text-xl font-bold">Code Stage</h1>
         </div>
         <div className="flex items-center space-x-4">
@@ -177,22 +177,22 @@ const CodeStage: React.FC = () => {
             aria-label="Toggle theme"
           >
             {theme === "dark" ? (
-              <Sun className="h-5 w-5" />
+              <Sun className="w-5 h-5" />
             ) : (
-              <Moon className="h-5 w-5" />
+              <Moon className="w-5 h-5" />
             )}
           </Button>
           <Button variant="outline" size="sm" className="hidden md:flex">
-            <BookOpen className="h-4 w-4 mr-2" />
+            <BookOpen className="w-4 h-4 mr-2" />
             Documentation
           </Button>
           <Button variant="outline" size="sm" className="hidden md:flex">
-            <LayoutGrid className="h-4 w-4 mr-2" />
+            <LayoutGrid className="w-4 h-4 mr-2" />
             Examples
           </Button>
           {isAuthenticated ? (
             <div className="flex items-center space-x-4">
-              <span className="text-sm hidden md:inline-block">
+              <span className="hidden text-sm md:inline-block">
                 Hello, {user?.name}
               </span>
               <Button variant="outline" size="sm" onClick={logout}>
@@ -206,7 +206,7 @@ const CodeStage: React.FC = () => {
                 size="sm"
                 onClick={() => navigate("/login")}
               >
-                <LogIn className="h-4 w-4 mr-2" />
+                <LogIn className="w-4 h-4 mr-2" />
                 Login
               </Button>
               <Button
@@ -214,7 +214,7 @@ const CodeStage: React.FC = () => {
                 size="sm"
                 onClick={() => navigate("/login?tab=signup")}
               >
-                <UserPlus className="h-4 w-4 mr-2" />
+                <UserPlus className="w-4 h-4 mr-2" />
                 Sign Up
               </Button>
             </div>
@@ -283,4 +283,4 @@ const CodeStage: React.FC = () => {
   );
 };
 
-export default CodeStage;
+export default CodeSage;

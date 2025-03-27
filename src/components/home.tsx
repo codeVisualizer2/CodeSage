@@ -120,12 +120,12 @@ function Home() {
         message={loginDialogMessage}
       />
 
-      <main className="container mx-auto px-4 py-8">
+      <main className="container px-4 py-8 mx-auto">
         <div className="flex flex-col gap-8">
           {/* Welcome Section */}
           <section className="text-center">
-            <h1 className="text-4xl font-bold mb-4">Welcome to Code Stage</h1>
-            <p className="text-xl text-muted-foreground mb-8">
+            <h1 className="mb-4 text-4xl font-bold">Welcome to Code Sage</h1>
+            <p className="mb-8 text-xl text-muted-foreground">
               Visualize, understand, and master coding algorithms
             </p>
             <div className="flex justify-center gap-4">
@@ -142,15 +142,15 @@ function Home() {
                   }
                 }}
               >
-                <Code className="mr-2 h-5 w-5" /> Start Coding
+                <Code className="w-5 h-5 mr-2" /> Start Coding
               </Button>
               <Button variant="outline" size="lg">
-                <BookOpen className="mr-2 h-5 w-5" /> Browse Tutorials
+                <BookOpen className="w-5 h-5 mr-2" /> Browse Tutorials
               </Button>
               {!isAuthenticated && (
                 <Button variant="secondary" size="lg" asChild>
                   <Link to="/login">
-                    <LogIn className="mr-2 h-5 w-5" /> Sign In
+                    <LogIn className="w-5 h-5 mr-2" /> Sign In
                   </Link>
                 </Button>
               )}
@@ -163,46 +163,46 @@ function Home() {
                 value="visualize"
                 className="flex items-center justify-center"
               >
-                <Code className="mr-2 h-4 w-4" /> Code Visualization
+                <Code className="w-4 h-4 mr-2" /> Code Visualization
               </TabsTrigger>
               <TabsTrigger
                 value="recommend"
                 className="flex items-center justify-center"
               >
-                <Brain className="mr-2 h-4 w-4" /> Recommendations
+                <Brain className="w-4 h-4 mr-2" /> Recommendations
               </TabsTrigger>
               <TabsTrigger
                 value="metrics"
                 className="flex items-center justify-center"
               >
-                <BarChart className="mr-2 h-4 w-4" /> Your Metrics
+                <BarChart className="w-4 h-4 mr-2" /> Your Metrics
               </TabsTrigger>
               <TabsTrigger
                 value="settings"
                 className="flex items-center justify-center"
               >
-                <Settings className="mr-2 h-4 w-4" /> Settings
+                <Settings className="w-4 h-4 mr-2" /> Settings
               </TabsTrigger>
             </TabsList>
 
             {/* Code Visualization Tab */}
             <TabsContent value="visualize" className="mt-6">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
                 <Card>
                   <CardHeader>
                     <CardTitle className="flex items-center">
-                      <Code className="mr-2 h-5 w-5" /> Code Stage
+                      <Code className="w-5 h-5 mr-2" /> Code Stage
                     </CardTitle>
                     <CardDescription>
                       Visualize algorithm execution step by step
                     </CardDescription>
                   </CardHeader>
                   <CardContent>
-                    <div className="aspect-video bg-muted rounded-md flex items-center justify-center mb-4">
+                    <div className="flex items-center justify-center mb-4 rounded-md aspect-video bg-muted">
                       <img
                         src="https://images.unsplash.com/photo-1579546929518-9e396f3cc809?w=800&q=80"
                         alt="Code visualization preview"
-                        className="rounded-md object-cover w-full h-full"
+                        className="object-cover w-full h-full rounded-md"
                       />
                     </div>
                     <p className="text-sm text-muted-foreground">
@@ -225,7 +225,7 @@ function Home() {
                         }
                       }}
                     >
-                      Launch Code Stage <ArrowRight className="ml-2 h-4 w-4" />
+                      Launch Code Stage <ArrowRight className="w-4 h-4 ml-2" />
                     </Button>
                   </CardFooter>
                 </Card>
@@ -233,7 +233,7 @@ function Home() {
                 <Card>
                   <CardHeader>
                     <CardTitle className="flex items-center">
-                      <BookOpen className="mr-2 h-5 w-5" /> Algorithm Library
+                      <BookOpen className="w-5 h-5 mr-2" /> Algorithm Library
                     </CardTitle>
                     <CardDescription>
                       Browse common algorithms and their visualizations
@@ -241,7 +241,7 @@ function Home() {
                   </CardHeader>
                   <CardContent>
                     <div className="space-y-4">
-                      <div className="flex items-center justify-between p-3 bg-muted rounded-md">
+                      <div className="flex items-center justify-between p-3 rounded-md bg-muted">
                         <div className="flex items-center">
                           <Badge variant="outline" className="mr-2">
                             Array
@@ -265,7 +265,7 @@ function Home() {
                           View
                         </Button>
                       </div>
-                      <div className="flex items-center justify-between p-3 bg-muted rounded-md">
+                      <div className="flex items-center justify-between p-3 rounded-md bg-muted">
                         <div className="flex items-center">
                           <Badge variant="outline" className="mr-2">
                             Array
@@ -289,7 +289,7 @@ function Home() {
                           View
                         </Button>
                       </div>
-                      <div className="flex items-center justify-between p-3 bg-muted rounded-md">
+                      <div className="flex items-center justify-between p-3 rounded-md bg-muted">
                         <div className="flex items-center">
                           <Badge variant="outline" className="mr-2">
                             Tree
@@ -318,7 +318,7 @@ function Home() {
                   <CardFooter>
                     <Button variant="outline" className="w-full">
                       Browse All Algorithms{" "}
-                      <ArrowRight className="ml-2 h-4 w-4" />
+                      <ArrowRight className="w-4 h-4 ml-2" />
                     </Button>
                   </CardFooter>
                 </Card>
@@ -331,7 +331,7 @@ function Home() {
                 <Card>
                   <CardHeader>
                     <CardTitle className="flex items-center">
-                      <Brain className="mr-2 h-5 w-5" /> Recommended Problems
+                      <Brain className="w-5 h-5 mr-2" /> Recommended Problems
                     </CardTitle>
                     <CardDescription>
                       Based on your recent activity and performance
@@ -341,7 +341,7 @@ function Home() {
                     <div className="space-y-4">
                       {recommendedProblems.map((problem) => (
                         <div key={problem.id} className="p-4 border rounded-lg">
-                          <div className="flex justify-between items-start mb-2">
+                          <div className="flex items-start justify-between mb-2">
                             <h3 className="font-medium">{problem.name}</h3>
                             <Badge
                               variant={
@@ -355,13 +355,13 @@ function Home() {
                               {problem.difficulty}
                             </Badge>
                           </div>
-                          <div className="text-sm text-muted-foreground mb-2">
+                          <div className="mb-2 text-sm text-muted-foreground">
                             <span className="font-medium">
                               Why recommended:
                             </span>{" "}
                             {problem.similarity}
                           </div>
-                          <div className="flex justify-between items-center">
+                          <div className="flex items-center justify-between">
                             <Badge variant="outline">{problem.category}</Badge>
                             <Button
                               size="sm"
@@ -402,7 +402,7 @@ function Home() {
                 <Card>
                   <CardHeader>
                     <CardTitle className="flex items-center">
-                      <Clock className="mr-2 h-5 w-5" /> Recently Completed
+                      <Clock className="w-5 h-5 mr-2" /> Recently Completed
                     </CardTitle>
                     <CardDescription>
                       Your recent problem-solving activity
@@ -418,7 +418,7 @@ function Home() {
                           <div>
                             <div className="font-medium">{problem.name}</div>
                             <div className="flex items-center text-sm text-muted-foreground">
-                              <Clock className="mr-1 h-3 w-3" />{" "}
+                              <Clock className="w-3 h-3 mr-1" />{" "}
                               {problem.timeSpent}
                               <span className="mx-2">•</span>
                               <div className="flex">
@@ -457,11 +457,11 @@ function Home() {
 
             {/* Metrics Tab */}
             <TabsContent value="metrics" className="mt-6">
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
                 <Card>
                   <CardHeader>
                     <CardTitle className="flex items-center">
-                      <BarChart className="mr-2 h-5 w-5" /> Problem Solving
+                      <BarChart className="w-5 h-5 mr-2" /> Problem Solving
                       Stats
                     </CardTitle>
                     <CardDescription>
@@ -514,22 +514,22 @@ function Home() {
 
                       <Separator />
 
-                      <div className="flex justify-between items-center">
+                      <div className="flex items-center justify-between">
                         <span className="text-sm">Current Streak</span>
                         <div className="flex items-center">
-                          <Zap className="h-4 w-4 text-yellow-500 mr-1" />
+                          <Zap className="w-4 h-4 mr-1 text-yellow-500" />
                           <span className="font-bold">
                             {userMetrics.streak} days
                           </span>
                         </div>
                       </div>
 
-                      <div className="flex justify-between items-center">
+                      <div className="flex items-center justify-between">
                         <span className="text-sm">
                           Average Time per Problem
                         </span>
                         <div className="flex items-center">
-                          <Clock className="h-4 w-4 text-blue-500 mr-1" />
+                          <Clock className="w-4 h-4 mr-1 text-blue-500" />
                           <span className="font-bold">
                             {userMetrics.averageTime}
                           </span>
@@ -542,7 +542,7 @@ function Home() {
                 <Card className="md:col-span-2">
                   <CardHeader>
                     <CardTitle className="flex items-center">
-                      <Brain className="mr-2 h-5 w-5" /> Skill Analysis
+                      <Brain className="w-5 h-5 mr-2" /> Skill Analysis
                     </CardTitle>
                     <CardDescription>
                       Your strengths and areas for improvement
@@ -551,7 +551,7 @@ function Home() {
                   <CardContent>
                     <div className="space-y-6">
                       <div>
-                        <h3 className="text-sm font-medium mb-2">
+                        <h3 className="mb-2 text-sm font-medium">
                           Strongest Categories
                         </h3>
                         <div className="grid grid-cols-2 gap-2">
@@ -575,7 +575,7 @@ function Home() {
                       </div>
 
                       <div>
-                        <h3 className="text-sm font-medium mb-2">
+                        <h3 className="mb-2 text-sm font-medium">
                           Areas for Improvement
                         </h3>
                         <div className="grid grid-cols-2 gap-2">
@@ -598,8 +598,8 @@ function Home() {
                         </div>
                       </div>
 
-                      <div className="p-4 bg-muted rounded-md">
-                        <h3 className="text-sm font-medium mb-2">
+                      <div className="p-4 rounded-md bg-muted">
+                        <h3 className="mb-2 text-sm font-medium">
                           Personalized Recommendation
                         </h3>
                         <p className="text-sm text-muted-foreground">
@@ -636,7 +636,7 @@ function Home() {
               <Card>
                 <CardHeader>
                   <CardTitle className="flex items-center">
-                    <Settings className="mr-2 h-5 w-5" /> Application Settings
+                    <Settings className="w-5 h-5 mr-2" /> Application Settings
                   </CardTitle>
                   <CardDescription>
                     Customize your Code Stage experience
@@ -645,12 +645,12 @@ function Home() {
                 <CardContent>
                   <div className="space-y-6">
                     <div>
-                      <h3 className="text-sm font-medium mb-4">
+                      <h3 className="mb-4 text-sm font-medium">
                         Language Preferences
                       </h3>
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                         <div>
-                          <label className="text-sm text-muted-foreground mb-2 block">
+                          <label className="block mb-2 text-sm text-muted-foreground">
                             Interface Language
                           </label>
                           <Select value={language} onValueChange={setLanguage}>
@@ -669,7 +669,7 @@ function Home() {
                         </div>
 
                         <div>
-                          <label className="text-sm text-muted-foreground mb-2 block">
+                          <label className="block mb-2 text-sm text-muted-foreground">
                             Programming Language
                           </label>
                           <Select defaultValue="javascript">
@@ -693,12 +693,12 @@ function Home() {
                     <Separator />
 
                     <div>
-                      <h3 className="text-sm font-medium mb-4">
+                      <h3 className="mb-4 text-sm font-medium">
                         Visualization Preferences
                       </h3>
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                         <div>
-                          <label className="text-sm text-muted-foreground mb-2 block">
+                          <label className="block mb-2 text-sm text-muted-foreground">
                             Animation Speed
                           </label>
                           <Select defaultValue="medium">
@@ -714,7 +714,7 @@ function Home() {
                         </div>
 
                         <div>
-                          <label className="text-sm text-muted-foreground mb-2 block">
+                          <label className="block mb-2 text-sm text-muted-foreground">
                             Default Visualization Type
                           </label>
                           <Select defaultValue="array">
@@ -737,7 +737,7 @@ function Home() {
                     <Separator />
 
                     <div>
-                      <h3 className="text-sm font-medium mb-4">
+                      <h3 className="mb-4 text-sm font-medium">
                         Accessibility Settings
                       </h3>
                       <div className="space-y-4">
