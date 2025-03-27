@@ -64,7 +64,7 @@ const LoginPage: React.FC = () => {
         <div className="flex items-center justify-between mb-6">
           <div className="flex items-center space-x-2">
             <Code className="w-6 h-6 text-primary" />
-            <h1 className="text-xl font-bold">Code Stage</h1>
+            <h1 className="text-xl font-bold">Code sage</h1>
           </div>
           <Button variant="ghost" size="sm" asChild>
             <Link to="/">

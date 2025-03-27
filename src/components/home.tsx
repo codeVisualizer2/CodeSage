@@ -112,7 +112,7 @@ function Home() {
 
   return (
     <div className="min-h-screen bg-background">
-      <Header title="Code Stage" />
+      <Header title="Code sage" />
 
       <LoginDialog
         open={loginDialogOpen}
@@ -133,7 +133,7 @@ function Home() {
                 size="lg"
                 onClick={() => {
                   if (isAuthenticated) {
-                    navigate("/code-stage");
+                    navigate("/code-sage");
                   } else {
                     setLoginDialogMessage(
                       "Sign in to save your progress and access all features.",
@@ -191,7 +191,7 @@ function Home() {
                 <Card>
                   <CardHeader>
                     <CardTitle className="flex items-center">
-                      <Code className="w-5 h-5 mr-2" /> Code Stage
+                      <Code className="w-5 h-5 mr-2" /> Code sage
                     </CardTitle>
                     <CardDescription>
                       Visualize algorithm execution step by step
@@ -216,16 +216,16 @@ function Home() {
                       className="w-full"
                       onClick={() => {
                         if (isAuthenticated) {
-                          navigate("/code-stage");
+                          navigate("/code-sage");
                         } else {
                           setLoginDialogMessage(
-                            "Sign in to use Code Stage and save your visualizations.",
+                            "Sign in to use Code sage and save your visualizations.",
                           );
                           setLoginDialogOpen(true);
                         }
                       }}
                     >
-                      Launch Code Stage <ArrowRight className="w-4 h-4 ml-2" />
+                      Launch Code sage <ArrowRight className="w-4 h-4 ml-2" />
                     </Button>
                   </CardFooter>
                 </Card>
@@ -253,7 +253,7 @@ function Home() {
                           size="sm"
                           onClick={() => {
                             if (isAuthenticated) {
-                              navigate("/code-stage");
+                              navigate("/code-sage");
                             } else {
                               setLoginDialogMessage(
                                 "Sign in to view this algorithm visualization.",
@@ -277,7 +277,7 @@ function Home() {
                           size="sm"
                           onClick={() => {
                             if (isAuthenticated) {
-                              navigate("/code-stage");
+                              navigate("/code-sage");
                             } else {
                               setLoginDialogMessage(
                                 "Sign in to view this algorithm visualization.",
@@ -301,7 +301,7 @@ function Home() {
                           size="sm"
                           onClick={() => {
                             if (isAuthenticated) {
-                              navigate("/code-stage");
+                              navigate("/code-sage");
                             } else {
                               setLoginDialogMessage(
                                 "Sign in to view this algorithm visualization.",
@@ -367,7 +367,7 @@ function Home() {
                               size="sm"
                               onClick={() => {
                                 if (isAuthenticated) {
-                                  navigate("/code-stage");
+                                  navigate("/code-sage");
                                 } else {
                                   setLoginDialogMessage(
                                     "Sign in to try this problem and track your progress.",
@@ -613,7 +613,7 @@ function Home() {
                           onClick={() => {
                             if (isAuthenticated) {
                               // Navigate to recommended problems
-                              navigate("/code-stage");
+                              navigate("/code-sage");
                             } else {
                               setLoginDialogMessage(
                                 "Sign in to view personalized recommendations.",
@@ -639,7 +639,7 @@ function Home() {
                     <Settings className="w-5 h-5 mr-2" /> Application Settings
                   </CardTitle>
                   <CardDescription>
-                    Customize your Code Stage experience
+                    Customize your Code sage experience
                   </CardDescription>
                 </CardHeader>
                 <CardContent>

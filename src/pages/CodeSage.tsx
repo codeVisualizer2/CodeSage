@@ -167,7 +167,7 @@ const CodeSage: React.FC = () => {
       <header className="flex items-center justify-between h-16 px-6 border-b bg-background">
         <div className="flex items-center space-x-2">
           <Code className="w-6 h-6 text-primary" />
-          <h1 className="text-xl font-bold">Code Stage</h1>
+          <h1 className="text-xl font-bold">Code sage</h1>
         </div>
         <div className="flex items-center space-x-4">
           <Button

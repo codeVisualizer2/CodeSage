@@ -1,7 +1,7 @@
 import { Suspense } from "react";
 import { useRoutes, Routes, Route } from "react-router-dom";
 import Home from "./components/home";
-import CodeStage from "./pages/CodeSage";
+import Codesage from "./pages/CodeSage";
 import LoginPage from "./pages/LoginPage";
 import { AuthProvider } from "./contexts/AuthContext";
 import routes from "tempo-routes";
@@ -13,7 +13,7 @@ function App() {
         <>
           <Routes>
             <Route path="/" element={<Home />} />
-            <Route path="/code-sage" element={<CodeStage />} />
+            <Route path="/code-sage" element={<Codesage />} />
             <Route path="/login" element={<LoginPage />} />
           </Routes>
           {import.meta.env.VITE_TEMPO === "true" && useRoutes(routes)}

@@ -9,7 +9,7 @@ interface HeaderProps {
   title?: string;
 }
 
-const Header = ({ title = "Code Stage" }: HeaderProps) => {
+const Header = ({ title = "Code sage" }: HeaderProps) => {
   // This is a placeholder for theme functionality
   // In a real implementation, you would use a theme context or similar
   const { theme, setTheme } = useTheme() || {
