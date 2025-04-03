@@ -15,6 +15,28 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Label } from "@/components/ui/label";
 import { ArrowLeft, Code } from "lucide-react";
 
+import { createClient } from '@supabase/supabase-js'; 
+import { Database } from './database.types'; 
+import dotenv from "dotenv";
+
+dotenv.config();
+
+const loadEnv = () => {
+  if (process.env.NODE_ENV === "production") {
+    dotenv.config();
+  } else {
+    dotenv.config({ path: ".env.local" });
+  }
+};
+
+loadEnv();
+
+const supabaseUrl = process.env.SUPABASE_URL;
+const supabaseAnonKey = process.env.SUPABASE_ANON_KEY;
+
+const supabase = createClient<Database>(supabaseUrl, supabaseAnonKey);
+
+
 const LoginPage: React.FC = () => {
   const [activeTab, setActiveTab] = useState("login");
   const [email, setEmail] = useState("");
