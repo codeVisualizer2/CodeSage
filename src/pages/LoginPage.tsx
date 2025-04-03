@@ -13,28 +13,7 @@ import {
 } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Label } from "@/components/ui/label";
-import { ArrowLeft, Code } from "lucide-react";
-
-import { createClient } from '@supabase/supabase-js'; 
-import { Database } from './database.types'; 
-import dotenv from "dotenv";
-
-dotenv.config();
-
-const loadEnv = () => {
-  if (process.env.NODE_ENV === "production") {
-    dotenv.config();
-  } else {
-    dotenv.config({ path: ".env.local" });
-  }
-};
-
-loadEnv();
-
-const supabaseUrl = process.env.SUPABASE_URL;
-const supabaseAnonKey = process.env.SUPABASE_ANON_KEY;
-
-const supabase = createClient<Database>(supabaseUrl, supabaseAnonKey);
+import { ArrowLeft, Code, Loader2 } from "lucide-react";
 
 
 const LoginPage: React.FC = () => {
@@ -43,6 +22,7 @@ const LoginPage: React.FC = () => {
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
   const [error, setError] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   const { login, signup } = useAuth();
   const navigate = useNavigate();
@@ -50,12 +30,18 @@ const LoginPage: React.FC = () => {
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
+    setIsLoading(true);
 
     try {
       await login(email, password);
       navigate("/");
     } catch (err) {
-      setError("Failed to login. Please check your credentials.");
+      console.error("Login error:", err);
+      setError(
+        err.message || "Failed to login. Please check your credentials."
+      );
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -68,11 +54,23 @@ const LoginPage: React.FC = () => {
       return;
     }
 
+    if (password.length < 6) {
+      setError("Password must be at least 6 characters");
+      return;
+    }
+
+    setIsLoading(true);
+
     try {
       await signup(name, email, password);
       navigate("/");
     } catch (err) {
-      setError("Failed to create account. Please try again.");
+      console.error("Signup error:", err);
+      setError(
+        err.message || "Failed to create account. Please try again."
+      );
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -126,6 +124,7 @@ const LoginPage: React.FC = () => {
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
                       required
+                      disabled={isLoading}
                     />
                   </div>
                   <div className="space-y-2">
@@ -137,19 +136,28 @@ const LoginPage: React.FC = () => {
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
                       required
+                      disabled={isLoading}
                     />
                   </div>
                   {error && <p className="text-sm text-destructive">{error}</p>}
                 </CardContent>
                 <CardFooter className="flex flex-col space-y-2">
-                  <Button type="submit" className="w-full">
-                    Sign In
+                  <Button type="submit" className="w-full" disabled={isLoading}>
+                    {isLoading ? (
+                      <>
+                        <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                        Signing In...
+                      </>
+                    ) : (
+                      "Sign In"
+                    )}
                   </Button>
                   <Button
                     type="button"
                     variant="outline"
                     className="w-full"
                     onClick={handleContinueWithoutAccount}
+                    disabled={isLoading}
                   >
                     Continue Without Account
                   </Button>
@@ -168,6 +176,7 @@ const LoginPage: React.FC = () => {
                       value={name}
                       onChange={(e) => setName(e.target.value)}
                       required
+                      disabled={isLoading}
                     />
                   </div>
                   <div className="space-y-2">
@@ -179,6 +188,7 @@ const LoginPage: React.FC = () => {
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
                       required
+                      disabled={isLoading}
                     />
                   </div>
                   <div className="space-y-2">
@@ -190,19 +200,28 @@ const LoginPage: React.FC = () => {
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
                       required
+                      disabled={isLoading}
                     />
                   </div>
                   {error && <p className="text-sm text-destructive">{error}</p>}
                 </CardContent>
                 <CardFooter className="flex flex-col space-y-2">
-                  <Button type="submit" className="w-full">
-                    Create Account
+                  <Button type="submit" className="w-full" disabled={isLoading}>
+                    {isLoading ? (
+                      <>
+                        <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                        Creating Account...
+                      </>
+                    ) : (
+                      "Create Account"
+                    )}
                   </Button>
                   <Button
                     type="button"
                     variant="outline"
                     className="w-full"
                     onClick={handleContinueWithoutAccount}
+                    disabled={isLoading}
                   >
                     Continue Without Account
                   </Button>
