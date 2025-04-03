@@ -35,7 +35,7 @@ const CodeEditor = ({
   };
 
   return (
-    <Card className="flex flex-col h-full overflow-hidden bg-white dark:bg-gray-900 border-gray-200 dark:border-gray-700">
+    <Card className="flex flex-col h-full overflow-hidden bg-white border-gray-200 dark:bg-gray-900 dark:border-gray-700">
       <div className="flex items-center justify-between p-4 border-b border-gray-200 dark:border-gray-700">
         <h2 className="text-lg font-medium text-gray-900 dark:text-gray-100">
           Code Editor
@@ -47,10 +47,10 @@ const CodeEditor = ({
             onClick={onReset}
             title="Reset Code"
           >
-            <RotateCcw className="h-4 w-4" />
+            <RotateCcw className="w-4 h-4" />
           </Button>
           <Button variant="outline" size="sm" title="Save Code">
-            <Save className="h-4 w-4" />
+            <Save className="w-4 h-4" />
           </Button>
           <Button
             variant={isRunning ? "destructive" : "default"}
@@ -60,12 +60,12 @@ const CodeEditor = ({
           >
             {isRunning ? (
               <>
-                <Pause className="h-4 w-4 mr-2" />
+                <Pause className="w-4 h-4 mr-2" />
                 Stop
               </>
             ) : (
               <>
-                <Play className="h-4 w-4 mr-2" />
+                <Play className="w-4 h-4 mr-2" />
                 Run
               </>
             )}
@@ -75,24 +75,24 @@ const CodeEditor = ({
 
       <Tabs
         defaultValue="code"
-        className="flex-1 flex flex-col"
+        className="flex flex-col flex-1"
         value={activeTab}
         onValueChange={setActiveTab}
       >
-        <TabsList className="px-4 pt-2 bg-gray-50 dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700">
+        <TabsList className="px-4 pt-2 border-b border-gray-200 bg-gray-50 dark:bg-gray-800 dark:border-gray-700">
           <TabsTrigger value="code">Code</TabsTrigger>
           <TabsTrigger value="test">Test Cases</TabsTrigger>
         </TabsList>
         <TabsContent value="code" className="flex-1 p-0 m-0">
           <div className="relative h-full">
             <textarea
-              className="w-full h-full p-4 font-mono text-sm resize-none focus:outline-none bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100"
+              className="w-full h-full p-4 ml-8 font-mono text-sm text-gray-900 bg-white resize-none focus:outline-none dark:bg-gray-900 dark:text-gray-100"
               value={code}
               onChange={handleCodeChange}
               spellCheck="false"
               placeholder="Write your code here..."
             />
-            <div className="absolute top-0 left-0 w-10 h-full bg-gray-50 dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700 flex flex-col items-center pt-4 text-xs text-gray-500 dark:text-gray-400">
+            <div className="absolute top-0 left-0 flex flex-col items-center w-10 h-full pt-4 text-xs text-gray-500 border-r border-gray-200 bg-gray-50 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400">
               {Array.from({ length: code.split("\n").length }).map((_, i) => (
                 <div key={i} className="w-full text-center py-[2px]">
                   {i + 1}
@@ -103,14 +103,14 @@ const CodeEditor = ({
         </TabsContent>
         <TabsContent value="test" className="flex-1 p-0 m-0">
           <textarea
-            className="w-full h-full p-4 font-mono text-sm resize-none focus:outline-none bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100"
+            className="w-full h-full p-4 font-mono text-sm text-gray-900 bg-white resize-none focus:outline-none dark:bg-gray-900 dark:text-gray-100"
             placeholder="Add test cases here..."
             defaultValue="// Test cases\ntwoSum([2, 7, 11, 15], 9); // Expected: [0, 1]\ntwoSum([3, 2, 4], 6);      // Expected: [1, 2]\ntwoSum([3, 3], 6);        // Expected: [0, 1]"
           />
         </TabsContent>
       </Tabs>
 
-      <div className="p-2 border-t border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 text-xs text-gray-500 dark:text-gray-400">
+      <div className="p-2 text-xs text-gray-500 border-t border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 dark:text-gray-400">
         <div className="flex justify-between">
           <span>
             Language: {language.charAt(0).toUpperCase() + language.slice(1)}
