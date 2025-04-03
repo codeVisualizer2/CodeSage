@@ -21,7 +21,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
 
   useEffect(() => {
-    // Check for existing session on initial load
     const checkUser = async () => {
       const { data } = await supabase.auth.getSession();
       if (data?.session?.user) {
@@ -30,7 +29,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       }
     };
 
-    // Subscribe to auth changes
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       (event, session) => {
         if (session?.user) {
