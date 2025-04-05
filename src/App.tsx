@@ -3,6 +3,7 @@ import { useRoutes, Routes, Route } from "react-router-dom";
 import Home from "./components/home";
 import Codesage from "./pages/CodeSage";
 import LoginPage from "./pages/LoginPage";
+import PricingPage from "./pages/PricingPage"
 import { AuthProvider } from "./contexts/AuthContext";
 import routes from "tempo-routes";
 
@@ -15,6 +16,7 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/code-sage" element={<Codesage />} />
             <Route path="/login" element={<LoginPage />} />
+            <Route path="/pricing" element={<PricingPage />} />
           </Routes>
           {import.meta.env.VITE_TEMPO === "true" && useRoutes(routes)}
         </>

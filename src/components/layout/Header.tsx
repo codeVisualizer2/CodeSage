@@ -1,5 +1,5 @@
 import React from "react";
-import { Moon, Sun, Code, LogIn, UserPlus } from "lucide-react";
+import { Moon, Sun, Code, LogIn, UserPlus, CreditCard } from "lucide-react";
 import { Button } from "../ui/button";
 import { useTheme } from "../ui/theme-provider";
 import { useAuth } from "@/contexts/AuthContext";
@@ -30,6 +30,14 @@ const Header = ({ title = "Code sage" }: HeaderProps) => {
       </div>
 
       <div className="flex items-center space-x-4">
+        {/* Add Pricing Button Here */}
+        <Button variant="ghost" size="sm" asChild>
+          <Link to="/pricing">
+            <CreditCard className="h-4 w-4 mr-2" />
+            Pricing
+          </Link>
+        </Button>
+        
         <Button
           variant="ghost"
           size="icon"
