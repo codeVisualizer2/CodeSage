@@ -48,6 +48,7 @@
     "date-fns": "^3.6.0",
     "embla-carousel-react": "^8.1.5",
     "framer-motion": "^11.18.0",
+    "highlight.js": "^11.11.1",
     "lucide-react": "^0.394.0",
     "prettier": "^3.5.3",
     "react": "^18.2.0",
