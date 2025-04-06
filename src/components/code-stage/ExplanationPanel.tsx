@@ -8,6 +8,8 @@ import { Info, Code, BookOpen, MessageSquare, Brain } from "lucide-react";
 import { Button } from "../ui/button";
 import { Textarea } from "../ui/textarea";
 import { getAIExplanation } from "../../lib/api";
+import Markdown from 'react-markdown'
+import remarkGfm from "remark-gfm";
 
 interface ExplanationStep {
   id: string;
@@ -291,9 +293,14 @@ const ExplanationPanel = ({
                     <h4 className="mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">
                       AI Response
                     </h4>
-                    <p className="text-sm text-gray-600 whitespace-pre-wrap dark:text-gray-400">
+                    <Markdown
+                      remarkPlugins={[remarkGfm]}
+                      components={{
+                        p: ({node, ...props}) => <p className="text-sm text-gray-600 whitespace-pre-wrap dark:text-gray-400" {...props} />
+                      }}
+                    >
                       {aiExplanation}
-                    </p>
+                    </Markdown>
                   </div>
                 )}
               </div>
