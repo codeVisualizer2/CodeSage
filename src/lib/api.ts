@@ -1,6 +1,5 @@
 export const getAIExplanation = async function* (prompt: string) {
   try {
-    console.log("Fetching AI explanation...");
 
     const response = await fetch("http://localhost:3000/api/ai", {
       method: "POST",
@@ -10,7 +9,6 @@ export const getAIExplanation = async function* (prompt: string) {
       body: JSON.stringify({ prompt }),
     });
 
-    console.log("Response:", response);
 
     if (!response.ok) {
       throw new Error("Network response was not ok");
@@ -54,7 +52,6 @@ export const getAIExplanation = async function* (prompt: string) {
               const parsed = JSON.parse(data);
               const content = parsed.content;
               if (content) {
-                console.log("Chunk:", content);
                 yield content;
               }
             } catch (e) {

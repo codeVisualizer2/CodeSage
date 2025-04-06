@@ -80,13 +80,11 @@ const ExplanationPanel = ({
     try {
       setLoading(true);
       setAiExplanation(""); // Clear previous explanation
-      console.log("Getting AI explanation...");
       
       const streamGenerator = getAIExplanation(prompt);
       
       for await (const chunk of streamGenerator) {
         if (chunk === "[DONE]") {
-          console.log("Stream complete");
           break;
         }
         setAiExplanation(prev => prev + chunk);
