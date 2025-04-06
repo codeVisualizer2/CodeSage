@@ -36,7 +36,7 @@ const ExplanationPanel = ({
         "We start by initializing our pointers and variables that will be used throughout the algorithm.",
       codeSnippet:
         "let left = 0;\nlet right = nums.length - 1;\nlet result = [];\n",
-      complexity: {
+      complexity: { 
         time: "O(1)",
         space: "O(1)",
       },
@@ -77,16 +77,20 @@ const ExplanationPanel = ({
     
     try {
       setLoading(true);
-      const response = await getAIExplanation(prompt);
+      setAiExplanation(""); // Clear previous explanation
+      console.log("Getting AI explanation...");
       
-      if (response.success && response.data) {
-        const aiResponse = response.data.choices?.[0]?.message?.content || "No explanation available";
-        setAiExplanation(aiResponse);
-      } else {
-        setAiExplanation("Failed to get explanation. Please try again.");
+      const streamGenerator = getAIExplanation(prompt);
+      
+      for await (const chunk of streamGenerator) {
+        if (chunk === "[DONE]") {
+          console.log("Stream complete");
+          break;
+        }
+        setAiExplanation(prev => prev + chunk);
       }
     } catch (error) {
-      console.error("Error fetching AI explanation:", error);
+      console.error("AI explanation error:", error);
       setAiExplanation("Error connecting to AI service. Please try again later.");
     } finally {
       setLoading(false);
