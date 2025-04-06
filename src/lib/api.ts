@@ -22,34 +22,34 @@ export const getAIExplanation = async function* (prompt: string) {
 
     const reader = response.body?.getReader();
     if (!reader) {
-      throw new Error('Response body is not readable');
+      throw new Error("Response body is not readable");
     }
     const decoder = new TextDecoder();
-    let buffer = '';
-    
+    let buffer = "";
+
     try {
       while (true) {
         const { done, value } = await reader.read();
         if (done) break;
-        
+
         // Append new chunk to buffer
         buffer += decoder.decode(value, { stream: true });
-        
+
         // Process complete lines from buffer
         while (true) {
-          const lineEnd = buffer.indexOf('\n');
+          const lineEnd = buffer.indexOf("\n");
           if (lineEnd === -1) break;
-          
+
           const line = buffer.slice(0, lineEnd).trim();
           buffer = buffer.slice(lineEnd + 1);
-          
-          if (line.startsWith('data: ')) {
+
+          if (line.startsWith("data: ")) {
             const data = line.slice(6);
-            if (data === '[DONE]') {
+            if (data === "[DONE]") {
               yield "[DONE]";
               break;
             }
-            
+
             try {
               const parsed = JSON.parse(data);
               const content = parsed.content;
@@ -67,9 +67,9 @@ export const getAIExplanation = async function* (prompt: string) {
       reader.cancel();
     }
   } catch (error) {
-    console.error('Error fetching AI explanation:', error);
+    console.error("Error fetching AI explanation:", error);
     throw error;
   }
-}; 
+};
 
-export default getAIExplanation; 
+export default getAIExplanation;
