@@ -1,8 +1,10 @@
-// PricingPade.tsx
+// src/pages/PricingPage.tsx - Update with Stripe integration
+
 import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import Header from "@/components/layout/Header";
+import { stripePromise } from '../lib/stripe';
 import {
   Card,
   CardContent,
@@ -17,17 +19,75 @@ import { Badge } from "@/components/ui/badge";
 import { Check } from "lucide-react";
 
 const PricingPage: React.FC = () => {
+  // Start of new state variables
   const [billingCycle, setBillingCycle] = useState<string>("monthly");
-  const { isAuthenticated } = useAuth();
+  const [isLoading, setIsLoading] = useState<Record<string, boolean>>({});
+  // End of new state variables
+  
+  const { isAuthenticated, user } = useAuth();
   const navigate = useNavigate();
 
-  const handleGetStarted = (plan: string) => {
-    if (isAuthenticated) {
-      console.log(`Selected plan: ${plan}, billing cycle: ${billingCycle}`);
-    } else {
+  // Start of new function
+  const handleGetStarted = async (plan: string) => {
+    if (!isAuthenticated) {
       navigate("/login");
+      return;
+    }
+
+    // Handle free plan separately
+    if (plan === "free") {
+      console.log(`Free plan selected`);
+      return;
+    }
+
+    // Show loading state for the clicked button
+    setIsLoading({ ...isLoading, [plan]: true });
+
+    try {
+      const stripe = await stripePromise;
+      
+      // Make a request to our server to create a checkout session
+      const response = await fetch('http://localhost:4242/create-checkout-session', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          planType: plan,
+          billingCycle,
+          userId: user?.id,
+          email: user?.email,
+        }),
+      });
+      
+      const session = await response.json();
+      
+      if (session.error) {
+        console.error('Error creating session:', session.error);
+        return;
+      }
+
+      // If we get a session URL, redirect directly
+      if (session.url) {
+        window.location.href = session.url;
+        return;
+      }
+
+      // Otherwise use redirectToCheckout (older method)
+      if (session.id && stripe) {
+        const result = await stripe.redirectToCheckout({
+          sessionId: session.id,
+        });
+        
+        if (result.error) {
+          console.error('Stripe redirect error:', result.error);
+        }
+      }
+    } catch (error) {
+      console.error('Error during checkout:', error);
+    } finally {
+      setIsLoading({ ...isLoading, [plan]: false });
     }
   };
+  // End of new function
 
   return (
     <div className="min-h-screen bg-background">
@@ -85,7 +145,10 @@ const PricingPage: React.FC = () => {
               </ul>
             </CardContent>
             <CardFooter>
-              <Button className="w-full bg-black hover:bg-black/90" onClick={() => handleGetStarted("free")}>
+              <Button 
+                className="w-full bg-black hover:bg-black/90" 
+                onClick={() => handleGetStarted("free")}
+              >
                 Get Started
               </Button>
             </CardFooter>
@@ -123,8 +186,12 @@ const PricingPage: React.FC = () => {
               </ul>
             </CardContent>
             <CardFooter>
-              <Button className="w-full bg-black hover:bg-black/90" onClick={() => handleGetStarted("pro")}>
-                Get Started
+              <Button 
+                className="w-full bg-black hover:bg-black/90" 
+                onClick={() => handleGetStarted("pro")}
+                disabled={isLoading.pro}
+              >
+                {isLoading.pro ? 'Processing...' : 'Get Started'}
               </Button>
             </CardFooter>
           </Card>
@@ -132,7 +199,7 @@ const PricingPage: React.FC = () => {
           {/* Enterprise Plan */}
           <Card className="flex flex-col border-black">
             <CardHeader>
-            <CardTitle className="text-2xl">Enterprise</CardTitle>
+              <CardTitle className="text-2xl">Enterprise</CardTitle>
               <CardDescription>For teams and organizations</CardDescription>
               <div className="mt-4">
                 <span className="text-4xl font-bold">
@@ -161,8 +228,12 @@ const PricingPage: React.FC = () => {
               </ul>
             </CardContent>
             <CardFooter>
-              <Button className="w-full bg-black hover:bg-black/90" onClick={() => handleGetStarted("enterprise")}>
-                Get Started
+              <Button 
+                className="w-full bg-black hover:bg-black/90" 
+                onClick={() => handleGetStarted("enterprise")}
+                disabled={isLoading.enterprise}
+              >
+                {isLoading.enterprise ? 'Processing...' : 'Get Started'}
               </Button>
             </CardFooter>
           </Card>
