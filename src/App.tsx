@@ -5,8 +5,8 @@ import Home from "./components/home";
 import Codesage from "./pages/CodeSage";
 import LoginPage from "./pages/LoginPage";
 import PricingPage from "./pages/PricingPage"
-import SuccessPage from "./pages/LoginPage";
-import CancelPage from "./pages/PricingPage"
+import SuccessPage from "./pages/SuccessPage";
+import CancelPage from "./pages/CancelPage"
 import { AuthProvider } from "./contexts/AuthContext";
 import routes from "tempo-routes";
 

@@ -1,5 +1,3 @@
-// src/pages/PricingPage.tsx - Update with Stripe integration
-
 import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
@@ -19,34 +17,25 @@ import { Badge } from "@/components/ui/badge";
 import { Check } from "lucide-react";
 
 const PricingPage: React.FC = () => {
-  // Start of new state variables
   const [billingCycle, setBillingCycle] = useState<string>("monthly");
   const [isLoading, setIsLoading] = useState<Record<string, boolean>>({});
-  // End of new state variables
-  
   const { isAuthenticated, user } = useAuth();
   const navigate = useNavigate();
-
-  // Start of new function
   const handleGetStarted = async (plan: string) => {
     if (!isAuthenticated) {
       navigate("/login");
       return;
     }
 
-    // Handle free plan separately
     if (plan === "free") {
-      console.log(`Free plan selected`);
       return;
     }
 
-    // Show loading state for the clicked button
     setIsLoading({ ...isLoading, [plan]: true });
 
     try {
       const stripe = await stripePromise;
-      
-      // Make a request to our server to create a checkout session
+
       const response = await fetch('http://localhost:4242/create-checkout-session', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -65,14 +54,10 @@ const PricingPage: React.FC = () => {
         return;
       }
 
-      // If we get a session URL, redirect directly
       if (session.url) {
-        window.location.href = session.url;
+        window.location.assign(session.url);
         return;
-      }
-
-      // Otherwise use redirectToCheckout (older method)
-      if (session.id && stripe) {
+      } else if (session.id && stripe) {
         const result = await stripe.redirectToCheckout({
           sessionId: session.id,
         });
@@ -80,6 +65,8 @@ const PricingPage: React.FC = () => {
         if (result.error) {
           console.error('Stripe redirect error:', result.error);
         }
+      } else {
+        console.error('No session URL or ID returned from server');
       }
     } catch (error) {
       console.error('Error during checkout:', error);
@@ -87,8 +74,6 @@ const PricingPage: React.FC = () => {
       setIsLoading({ ...isLoading, [plan]: false });
     }
   };
-  // End of new function
-
   return (
     <div className="min-h-screen bg-background">
       <Header title="Pricing - Code Sage" />
@@ -119,9 +104,9 @@ const PricingPage: React.FC = () => {
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
           {/* Basic Plan */}
-          <Card className="flex flex-col border-black">
+          <Card>
             <CardHeader>
-              <CardTitle className="text-2xl">Basic</CardTitle>
+              <CardTitle className="text-2xl font-bold">Basic</CardTitle>
               <CardDescription>For learning and experimentation</CardDescription>
               <div className="mt-4">
                 <span className="text-4xl font-bold">Free</span>
@@ -155,15 +140,24 @@ const PricingPage: React.FC = () => {
           </Card>
 
           {/* Pro Plan */}
-          <Card className="flex flex-col border-black">
+          <div
+          className="rounded-2xl overflow-hidden"
+          style={{
+            border: "8px solid transparent",
+            borderImage: "url('https://images.unsplash.com/photo-1579546929518-9e396f3cc809?w=1600&q=80') 30 round"
+          }}
+        >
+          <Card className="text-black rounded-none">
             <CardHeader>
-              <CardTitle className="text-2xl">Pro</CardTitle>
-              <CardDescription>For serious learners and professionals</CardDescription>
+              <CardTitle className="text-2xl font-bold">Pro</CardTitle>
+              <CardDescription className="text-black">
+                For serious learners and professionals
+              </CardDescription>
               <div className="mt-4">
                 <span className="text-4xl font-bold">
                   ${billingCycle === "monthly" ? "20" : "16"}
                 </span>
-                <span className="text-muted-foreground ml-1">
+                <span className="text-black ml-1">
                   /{billingCycle === "monthly" ? "month" : "month, billed annually"}
                 </span>
               </div>
@@ -172,15 +166,15 @@ const PricingPage: React.FC = () => {
               <p className="font-medium mb-4">Everything in Free, plus:</p>
               <ul className="space-y-2">
                 <li className="flex items-center">
-                  <Check className="h-4 w-4 mr-2 text-green-500" />
+                  <Check className="h-4 w-4 mr-2 text-fuchsia-600" />
                   <span>Unlimited algorithm visualizations</span>
                 </li>
                 <li className="flex items-center">
-                  <Check className="h-4 w-4 mr-2 text-green-500" />
+                  <Check className="h-4 w-4 mr-2 text-fuchsia-600" />
                   <span>Advanced code editor</span>
                 </li>
                 <li className="flex items-center">
-                  <Check className="h-4 w-4 mr-2 text-green-500" />
+                  <Check className="h-4 w-4 mr-2 text-fuchsia-600" />
                   <span>Priority support</span>
                 </li>
               </ul>
@@ -195,11 +189,12 @@ const PricingPage: React.FC = () => {
               </Button>
             </CardFooter>
           </Card>
+        </div>
 
           {/* Enterprise Plan */}
-          <Card className="flex flex-col border-black">
+          <Card>
             <CardHeader>
-              <CardTitle className="text-2xl">Enterprise</CardTitle>
+              <CardTitle className="text-2xl font-bold">Enterprise</CardTitle>
               <CardDescription>For teams and organizations</CardDescription>
               <div className="mt-4">
                 <span className="text-4xl font-bold">

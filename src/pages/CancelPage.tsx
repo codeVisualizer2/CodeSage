@@ -1,5 +1,3 @@
-// src/pages/CancelPage.tsx - New file
-
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";

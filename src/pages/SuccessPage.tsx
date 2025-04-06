@@ -1,5 +1,3 @@
-// src/pages/SuccessPage.tsx - New file
-
 import React, { useState, useEffect } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -8,40 +6,31 @@ import { CheckCircle } from "lucide-react";
 import Header from "@/components/layout/Header";
 
 const SuccessPage: React.FC = () => {
-  // Start of new state variables
   const [searchParams] = useSearchParams();
   const [loading, setLoading] = useState(true);
   const [sessionId, setSessionId] = useState<string | null>(null);
-  // End of new state variables
   
   const navigate = useNavigate();
 
-  // Start of new useEffect
   useEffect(() => {
-    // Check for session_id in URL
     const session_id = searchParams.get("session_id");
     setSessionId(session_id);
     
     if (session_id) {
-      // Simulate verification/loading
       setTimeout(() => {
         setLoading(false);
       }, 1000);
     } else {
-      // No session ID found, redirect to pricing
       navigate("/pricing");
     }
   }, [searchParams, navigate]);
-  // End of new useEffect
 
-  // Start of new function
   const handleManageBilling = async () => {
     if (!sessionId) return;
     
     try {
       setLoading(true);
       
-      // Call the server to create a portal session
       const response = await fetch('http://localhost:4242/create-portal-session', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -49,8 +38,7 @@ const SuccessPage: React.FC = () => {
       });
       
       const { url } = await response.json();
-      
-      // Redirect to the customer portal
+
       if (url) {
         window.location.href = url;
       }
@@ -59,8 +47,6 @@ const SuccessPage: React.FC = () => {
       setLoading(false);
     }
   };
-  // End of new function
-
   return (
     <div className="min-h-screen bg-background">
       <Header title="Payment Successful - Code Sage" />

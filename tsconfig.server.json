@@ -1,0 +1,12 @@
+{
+    "extends": "./tsconfig.json",
+    "compilerOptions": {
+      "noEmit": false,
+      "allowImportingTsExtensions": false,
+      "module": "nodenext",
+      "moduleResolution": "nodenext",
+      "outDir": "./dist"
+    },
+    "include": ["server.ts"]
+  }
+  
