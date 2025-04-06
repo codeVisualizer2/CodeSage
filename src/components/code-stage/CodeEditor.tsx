@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Play, Pause, RotateCcw, Save } from "lucide-react";
 import Editor from "@monaco-editor/react";
+import { useTheme } from "@/components/ui/theme-provider";
 
 interface CodeEditorProps {
   initialCode?: string;
@@ -24,6 +25,7 @@ const CodeEditor = ({
 }: CodeEditorProps) => {
   const [code, setCode] = useState<string>(initialCode);
   const [activeTab, setActiveTab] = useState<string>("code");
+  const { theme } = useTheme();
 
   const handleEditorChange = (value: string | undefined) => {
     if (value !== undefined) {
@@ -101,7 +103,7 @@ const CodeEditor = ({
                 defaultValue={initialCode}
                 value={code}
                 onChange={handleEditorChange}
-                theme="vs-light"
+                theme={theme === "dark" ? "vs-dark" : "vs-light"}
                 options={{
                   minimap: { enabled: false },
                   fontSize: 14,
@@ -132,7 +134,7 @@ twoSum([3, 3], 6);         // Expected: [0, 1]
 // Add your own test cases below:
 // twoSum([], 0);           // Expected: []
 // twoSum([1, 2, 3], 10);   // Expected: []`}
-            theme="vs-light"
+            theme={theme === "dark" ? "vs-dark" : "vs-light"}
             options={{
               minimap: { enabled: false },
               fontSize: 14,
