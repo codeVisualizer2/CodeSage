@@ -35,7 +35,6 @@ const CodeSage: React.FC = () => {
     `// Write your LeetCode solution here\nfunction twoSum(nums, target) {\n  const map = new Map();\n  \n  for (let i = 0; i < nums.length; i++) {\n    const complement = target - nums[i];\n    \n    if (map.has(complement)) {\n      return [map.get(complement), i];\n    }\n    \n    map.set(nums[i], i);\n  }\n  \n  return [];\n}`,
   );
 
-  // Mock data for visualization
   const [dataStructures, setDataStructures] = useState([
     { id: "1", value: 2, type: "array" },
     { id: "2", value: 7, type: "array" },
@@ -43,7 +42,6 @@ const CodeSage: React.FC = () => {
     { id: "4", value: 15, type: "array" },
   ]);
 
-  // Mock explanation steps
   const explanationSteps = [
     {
       id: "1",
@@ -119,37 +117,31 @@ const CodeSage: React.FC = () => {
   const handleRunCode = () => {
     setIsRunning(true);
     setCurrentStep(0);
-    // In a real implementation, this would execute the code and update the visualization
   };
 
   const handlePauseCode = () => {
     setIsRunning(false);
-    // In a real implementation, this would pause the code execution
   };
 
   const handleStepForward = () => {
     if (currentStep < totalSteps - 1) {
       setCurrentStep(currentStep + 1);
-      // In a real implementation, this would advance the visualization to the next step
     }
   };
 
   const handleStepBackward = () => {
     if (currentStep > 0) {
       setCurrentStep(currentStep - 1);
-      // In a real implementation, this would revert the visualization to the previous step
     }
   };
 
   const handleReset = () => {
     setIsRunning(false);
     setCurrentStep(0);
-    // In a real implementation, this would reset the visualization to its initial state
   };
 
   const handleCodeChange = (newCode: string) => {
     setCode(newCode);
-    // In a real implementation, this would update the code in the editor
   };
 
   const toggleTheme = () => {
@@ -163,7 +155,6 @@ const CodeSage: React.FC = () => {
         onOpenChange={setLoginDialogOpen}
         message="Sign in to save your progress and access all features."
       />
-      {/* Header */}
       <header className="flex items-center justify-between h-16 px-6 border-b bg-background">
         <div className="flex items-center space-x-2">
           <Code className="w-6 h-6 text-primary" />
@@ -222,7 +213,6 @@ const CodeSage: React.FC = () => {
         </div>
       </header>
 
-      {/* Main Content */}
       <main className="flex-1 overflow-hidden">
         <ResizablePanelGroup direction="horizontal" className="h-full">
           {/* Code Editor Panel */}
@@ -268,7 +258,6 @@ const CodeSage: React.FC = () => {
         </ResizablePanelGroup>
       </main>
 
-      {/* Control Panel */}
       <ControlPanel
         onRun={handleRunCode}
         onPause={handlePauseCode}

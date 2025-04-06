@@ -10,10 +10,12 @@
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "format": "prettier --write src/**/*.{js,ts} src/*.{js,ts}",
     "preview": "vite preview",
-    "types:supabase": "npx supabase gen types typescript --project-id $SUPABASE_PROJECT_ID > src/types/supabase.ts"
+    "types:supabase": "npx supabase gen types typescript --project-id $SUPABASE_PROJECT_ID > src/types/supabase.ts",
+    "format": "prettier --write src/**/*.{js,ts} src/*.{js,ts}"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.6.0",
+    "@monaco-editor/react": "^4.7.0",
     "@radix-ui/react-accordion": "^1.1.2",
     "@radix-ui/react-alert-dialog": "^1.0.5",
     "@radix-ui/react-aspect-ratio": "^1.0.3",
@@ -50,7 +52,9 @@
     "embla-carousel-react": "^8.1.5",
     "express": "^5.1.0",
     "framer-motion": "^11.18.0",
+    "highlight.js": "^11.11.1",
     "lucide-react": "^0.394.0",
+    "prettier": "^3.5.3",
     "react": "^18.2.0",
     "react-day-picker": "^8.10.1",
     "react-dom": "^18.2.0",
