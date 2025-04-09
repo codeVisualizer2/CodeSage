@@ -1,10 +1,15 @@
-import React from "react";
+import React, { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
 import { ScrollArea } from "../ui/scroll-area";
 import { Badge } from "../ui/badge";
 import { Separator } from "../ui/separator";
-import { Info, Code, BookOpen, MessageSquare } from "lucide-react";
+import { Info, Code, BookOpen, MessageSquare, Brain } from "lucide-react";
+import { Button } from "../ui/button";
+import { Textarea } from "../ui/textarea";
+import { getAIExplanation } from "../../lib/api";
+import Markdown from 'react-markdown'
+import remarkGfm from "remark-gfm";
 
 interface ExplanationStep {
   id: string;
@@ -33,7 +38,7 @@ const ExplanationPanel = ({
         "We start by initializing our pointers and variables that will be used throughout the algorithm.",
       codeSnippet:
         "let left = 0;\nlet right = nums.length - 1;\nlet result = [];\n",
-      complexity: {
+      complexity: { 
         time: "O(1)",
         space: "O(1)",
       },
@@ -65,9 +70,35 @@ const ExplanationPanel = ({
   algorithmName = "Binary Search",
 }: ExplanationPanelProps) => {
   const currentStepData = steps[currentStep];
+  const [aiExplanation, setAiExplanation] = useState<string>("");
+  const [loading, setLoading] = useState<boolean>(false);
+  const [prompt, setPrompt] = useState<string>("");
+
+  const handleGetAIExplanation = async () => {
+    if (!prompt.trim()) return;
+    
+    try {
+      setLoading(true);
+      setAiExplanation(""); 
+      
+      const streamGenerator = getAIExplanation(prompt);
+      
+      for await (const chunk of streamGenerator) {
+        if (chunk === "[DONE]") {
+          break;
+        }
+        setAiExplanation(prev => prev + chunk);
+      }
+    } catch (error) {
+      console.error("AI explanation error:", error);
+      setAiExplanation("Error connecting to AI service. Please try again later.");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
-    <Card className="h-full w-full overflow-hidden bg-white dark:bg-gray-950 border-gray-200 dark:border-gray-800">
+    <Card className="w-full h-full overflow-hidden bg-white border-gray-200 dark:bg-gray-950 dark:border-gray-800">
       <CardHeader className="pb-3">
         <div className="flex items-center justify-between">
           <CardTitle className="text-xl font-semibold text-gray-900 dark:text-gray-100">
@@ -75,7 +106,7 @@ const ExplanationPanel = ({
           </CardTitle>
           <Badge
             variant="outline"
-            className="bg-blue-50 text-blue-700 dark:bg-blue-950 dark:text-blue-300"
+            className="text-blue-700 bg-blue-50 dark:bg-blue-950 dark:text-blue-300"
           >
             {algorithmName}
           </Badge>
@@ -87,25 +118,29 @@ const ExplanationPanel = ({
 
       <Tabs defaultValue="explanation" className="w-full">
         <div className="px-6">
-          <TabsList className="w-full grid grid-cols-4">
+          <TabsList className="grid w-full grid-cols-5">
             <TabsTrigger
               value="explanation"
               className="flex items-center gap-2"
             >
-              <Info className="h-4 w-4" />
+              <Info className="w-4 h-4" />
               <span className="hidden sm:inline">Explanation</span>
             </TabsTrigger>
             <TabsTrigger value="code" className="flex items-center gap-2">
-              <Code className="h-4 w-4" />
+              <Code className="w-4 h-4" />
               <span className="hidden sm:inline">Code</span>
             </TabsTrigger>
             <TabsTrigger value="complexity" className="flex items-center gap-2">
-              <BookOpen className="h-4 w-4" />
+              <BookOpen className="w-4 h-4" />
               <span className="hidden sm:inline">Complexity</span>
             </TabsTrigger>
             <TabsTrigger value="notes" className="flex items-center gap-2">
-              <MessageSquare className="h-4 w-4" />
+              <MessageSquare className="w-4 h-4" />
               <span className="hidden sm:inline">Notes</span>
+            </TabsTrigger>
+            <TabsTrigger value="ai" className="flex items-center gap-2">
+              <Brain className="w-4 h-4" />
+              <span className="hidden sm:inline">AI</span>
             </TabsTrigger>
           </TabsList>
         </div>
@@ -117,12 +152,12 @@ const ExplanationPanel = ({
                 <h3 className="text-lg font-medium text-gray-900 dark:text-gray-100">
                   {currentStepData.title}
                 </h3>
-                <p className="text-gray-700 dark:text-gray-300 leading-relaxed">
+                <p className="leading-relaxed text-gray-700 dark:text-gray-300">
                   {currentStepData.description}
                 </p>
 
-                <div className="bg-gray-50 dark:bg-gray-900 p-4 rounded-md border border-gray-200 dark:border-gray-800">
-                  <h4 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                <div className="p-4 border border-gray-200 rounded-md bg-gray-50 dark:bg-gray-900 dark:border-gray-800">
+                  <h4 className="mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">
                     Key Insight
                   </h4>
                   <p className="text-sm text-gray-600 dark:text-gray-400">
@@ -138,15 +173,15 @@ const ExplanationPanel = ({
                 <h3 className="text-lg font-medium text-gray-900 dark:text-gray-100">
                   Code Snippet
                 </h3>
-                <div className="bg-gray-50 dark:bg-gray-900 p-4 rounded-md border border-gray-200 dark:border-gray-800 font-mono text-sm overflow-x-auto">
+                <div className="p-4 overflow-x-auto font-mono text-sm border border-gray-200 rounded-md bg-gray-50 dark:bg-gray-900 dark:border-gray-800">
                   <pre className="whitespace-pre-wrap">
                     {currentStepData.codeSnippet ||
                       "No code snippet available for this step."}
                   </pre>
                 </div>
 
-                <div className="bg-yellow-50 dark:bg-yellow-950 p-4 rounded-md border border-yellow-200 dark:border-yellow-900">
-                  <h4 className="text-sm font-medium text-yellow-800 dark:text-yellow-300 mb-2">
+                <div className="p-4 border border-yellow-200 rounded-md bg-yellow-50 dark:bg-yellow-950 dark:border-yellow-900">
+                  <h4 className="mb-2 text-sm font-medium text-yellow-800 dark:text-yellow-300">
                     Important Note
                   </h4>
                   <p className="text-sm text-yellow-700 dark:text-yellow-400">
@@ -164,8 +199,8 @@ const ExplanationPanel = ({
                 </h3>
 
                 <div className="grid grid-cols-2 gap-4">
-                  <div className="bg-gray-50 dark:bg-gray-900 p-4 rounded-md border border-gray-200 dark:border-gray-800">
-                    <h4 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                  <div className="p-4 border border-gray-200 rounded-md bg-gray-50 dark:bg-gray-900 dark:border-gray-800">
+                    <h4 className="mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">
                       Time Complexity
                     </h4>
                     <p className="text-2xl font-bold text-blue-600 dark:text-blue-400">
@@ -177,8 +212,8 @@ const ExplanationPanel = ({
                     </p>
                   </div>
 
-                  <div className="bg-gray-50 dark:bg-gray-900 p-4 rounded-md border border-gray-200 dark:border-gray-800">
-                    <h4 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                  <div className="p-4 border border-gray-200 rounded-md bg-gray-50 dark:bg-gray-900 dark:border-gray-800">
+                    <h4 className="mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">
                       Space Complexity
                     </h4>
                     <p className="text-2xl font-bold text-green-600 dark:text-green-400">
@@ -191,8 +226,8 @@ const ExplanationPanel = ({
                   </div>
                 </div>
 
-                <div className="bg-gray-50 dark:bg-gray-900 p-4 rounded-md border border-gray-200 dark:border-gray-800">
-                  <h4 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                <div className="p-4 border border-gray-200 rounded-md bg-gray-50 dark:bg-gray-900 dark:border-gray-800">
+                  <h4 className="mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">
                     Overall Algorithm Complexity
                   </h4>
                   <p className="text-sm text-gray-600 dark:text-gray-400">
@@ -211,14 +246,14 @@ const ExplanationPanel = ({
                 </h3>
 
                 <div className="bg-gray-50 dark:bg-gray-900 p-4 rounded-md border border-gray-200 dark:border-gray-800 min-h-[200px]">
-                  <p className="text-gray-500 dark:text-gray-400 italic">
+                  <p className="italic text-gray-500 dark:text-gray-400">
                     Add your personal notes about this step here. This area is
                     for your own reference and understanding.
                   </p>
                 </div>
 
-                <div className="bg-purple-50 dark:bg-purple-950 p-4 rounded-md border border-purple-200 dark:border-purple-900">
-                  <h4 className="text-sm font-medium text-purple-800 dark:text-purple-300 mb-2">
+                <div className="p-4 border border-purple-200 rounded-md bg-purple-50 dark:bg-purple-950 dark:border-purple-900">
+                  <h4 className="mb-2 text-sm font-medium text-purple-800 dark:text-purple-300">
                     Learning Tip
                   </h4>
                   <p className="text-sm text-purple-700 dark:text-purple-400">
@@ -226,6 +261,46 @@ const ExplanationPanel = ({
                     solution with the one shown here.
                   </p>
                 </div>
+              </div>
+            </TabsContent>
+
+            <TabsContent value="ai" className="mt-0">
+              <div className="space-y-4">
+                <h3 className="text-lg font-medium text-gray-900 dark:text-gray-100">
+                  AI Explanation
+                </h3>
+                
+                <div className="space-y-2">
+                  <Textarea 
+                    placeholder="Ask AI about this algorithm or code..."
+                    value={prompt}
+                    onChange={(e) => setPrompt(e.target.value)}
+                    className="min-h-[100px]"
+                  />
+                  <Button 
+                    onClick={handleGetAIExplanation}
+                    disabled={loading || !prompt.trim()}
+                    className="w-full"
+                  >
+                    {loading ? "Loading..." : "Get AI Explanation"}
+                  </Button>
+                </div>
+
+                {aiExplanation && (
+                  <div className="p-4 border border-gray-200 rounded-md bg-gray-50 dark:bg-gray-900 dark:border-gray-800">
+                    <h4 className="mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">
+                      AI Response
+                    </h4>
+                    <Markdown
+                      remarkPlugins={[remarkGfm]}
+                      components={{
+                        p: ({node, ...props}) => <p className="text-sm text-gray-600 whitespace-pre-wrap dark:text-gray-400" {...props} />
+                      }}
+                    >
+                      {aiExplanation}
+                    </Markdown>
+                  </div>
+                )}
               </div>
             </TabsContent>
           </ScrollArea>

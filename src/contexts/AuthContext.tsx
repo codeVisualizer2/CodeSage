@@ -1,46 +1,91 @@
-import React, { createContext, useContext, useState, ReactNode } from "react";
+import React, { createContext, useContext, useState, ReactNode, useEffect } from "react";
+import { supabase } from "@/client";  
 
 type User = {
   id: string;
-  name: string;
   email: string;
-} | null;
+  name?: string;
+};
 
 type AuthContextType = {
-  user: User;
+  user: User | null;
   isAuthenticated: boolean;
   login: (email: string, password: string) => Promise<void>;
   signup: (name: string, email: string, password: string) => Promise<void>;
-  logout: () => void;
+  logout: () => Promise<void>;
 };
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export function AuthProvider({ children }: { children: ReactNode }) {
-  const [user, setUser] = useState<User>(null);
+  const [user, setUser] = useState<User | null>(null);
 
-  // Mock authentication functions
+  useEffect(() => {
+    const checkUser = async () => {
+      const { data } = await supabase.auth.getSession();
+      if (data?.session?.user) {
+        const { id, email } = data.session.user;
+        setUser({ id, email });
+      }
+    };
+
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(
+      (event, session) => {
+        if (session?.user) {
+          const { id, email } = session.user;
+          setUser({ id, email });
+        } else {
+          setUser(null);
+        }
+      }
+    );
+
+    checkUser();
+
+    return () => {
+      subscription.unsubscribe();
+    };
+  }, []);
+
   const login = async (email: string, password: string) => {
-    // In a real app, this would make an API call to authenticate
-    // For now, we'll just simulate a successful login
-    setUser({
-      id: "1",
-      name: "Demo User",
-      email: email,
+    const { data, error } = await supabase.auth.signInWithPassword({
+      email,
+      password,
     });
+    
+    if (error) throw error;
+    
+    if (data.user) {
+      setUser({
+        id: data.user.id,
+        email: data.user.email,
+      });
+    }
   };
 
   const signup = async (name: string, email: string, password: string) => {
-    // In a real app, this would make an API call to create a new user
-    // For now, we'll just simulate a successful signup
-    setUser({
-      id: "1",
-      name: name,
-      email: email,
+    const { data, error } = await supabase.auth.signUp({
+      email,
+      password,
+      options: {
+        data: { name }
+      }
     });
+    
+    if (error) throw error;
+    
+    if (data.user) {
+      setUser({
+        id: data.user.id,
+        email: data.user.email,
+        name
+      });
+    }
   };
 
-  const logout = () => {
+  const logout = async () => {
+    const { error } = await supabase.auth.signOut();
+    if (error) throw error;
     setUser(null);
   };
 
