@@ -16,6 +16,10 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
 import { Check } from "lucide-react";
 
+const API_CONFIG = {
+  CHECKOUT_SESSION_URL: process.env.REACT_APP_CHECKOUT_SESSION_URL || "http://localhost:4242/create-checkout-session"
+};
+
 const PricingPage: React.FC = () => {
   const [billingCycle, setBillingCycle] = useState<string>("monthly");
   const [isLoading, setIsLoading] = useState<Record<string, boolean>>({});
@@ -36,7 +40,7 @@ const PricingPage: React.FC = () => {
     try {
       const stripe = await stripePromise;
 
-      const response = await fetch('http://localhost:4242/create-checkout-session', {
+      const response = await fetch(API_CONFIG.CHECKOUT_SESSION_URL, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -103,7 +107,6 @@ const PricingPage: React.FC = () => {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
-          {/* Basic Plan */}
           <Card>
             <CardHeader>
               <CardTitle className="text-2xl font-bold">Basic</CardTitle>
@@ -138,8 +141,6 @@ const PricingPage: React.FC = () => {
               </Button>
             </CardFooter>
           </Card>
-
-          {/* Pro Plan */}
           <div
           className="rounded-2xl overflow-hidden"
           style={{
@@ -190,8 +191,6 @@ const PricingPage: React.FC = () => {
             </CardFooter>
           </Card>
         </div>
-
-          {/* Enterprise Plan */}
           <Card>
             <CardHeader>
               <CardTitle className="text-2xl font-bold">Enterprise</CardTitle>
