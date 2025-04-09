@@ -89,30 +89,21 @@ const CodeEditor = ({
         </TabsList>
         <TabsContent value="code" className="flex-1 p-0 m-0">
           <div className="relative h-full">
-            <div className="absolute top-0 left-0 flex flex-col items-center w-10 h-full pt-4 text-xs text-gray-500 border-r border-gray-200 bg-gray-50 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400">
-              {Array.from({ length: code.split("\n").length }).map((_, i) => (
-                <div key={i} className="w-full text-center py-[2px]">
-                  {i + 1}
-                </div>
-              ))}
-            </div>
-            <div className="h-full ml-10">
-              <Editor
-                height="100%"
-                defaultLanguage={language}
-                defaultValue={initialCode}
-                value={code}
-                onChange={handleEditorChange}
-                theme={theme === "dark" ? "vs-dark" : "vs-light"}
-                options={{
-                  minimap: { enabled: false },
-                  fontSize: 14,
-                  lineNumbers: "off",
-                  scrollBeyondLastLine: false,
-                  automaticLayout: true,
-                }}
-              />
-            </div>
+            <Editor
+              height="100%"
+              defaultLanguage={language}
+              defaultValue={initialCode}
+              value={code}
+              onChange={handleEditorChange}
+              theme={theme === "dark" ? "vs-dark" : "vs-light"}
+              options={{
+                minimap: { enabled: false },
+                fontSize: 14,
+                lineNumbers: "on",
+                scrollBeyondLastLine: false,
+                automaticLayout: true,
+              }}
+            />
           </div>
         </TabsContent>
         <TabsContent value="test" className="flex-1 p-0 m-0">
