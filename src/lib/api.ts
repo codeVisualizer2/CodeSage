@@ -1,14 +1,15 @@
+
+const API_URL = "http://localhost:3000/api/ai";
+
 export const getAIExplanation = async function* (prompt: string) {
   try {
-
-    const response = await fetch("http://localhost:3000/api/ai", {
+    const response = await fetch(API_URL, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({ prompt }),
     });
-
 
     if (!response.ok) {
       throw new Error("Network response was not ok");
@@ -30,10 +31,8 @@ export const getAIExplanation = async function* (prompt: string) {
         const { done, value } = await reader.read();
         if (done) break;
 
-        // Append new chunk to buffer
         buffer += decoder.decode(value, { stream: true });
 
-        // Process complete lines from buffer
         while (true) {
           const lineEnd = buffer.indexOf("\n");
           if (lineEnd === -1) break;

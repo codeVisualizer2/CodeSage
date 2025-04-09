@@ -79,7 +79,7 @@ const ExplanationPanel = ({
     
     try {
       setLoading(true);
-      setAiExplanation(""); // Clear previous explanation
+      setAiExplanation(""); 
       
       const streamGenerator = getAIExplanation(prompt);
       
