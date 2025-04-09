@@ -17,7 +17,7 @@ import { Badge } from "@/components/ui/badge";
 import { Check } from "lucide-react";
 
 const API_CONFIG = {
-  CHECKOUT_SESSION_URL: process.env.REACT_APP_CHECKOUT_SESSION_URL || "http://localhost:4242/create-checkout-session"
+  CHECKOUT_SESSION_URL: import.meta.env.VITE_CHECKOUT_SESSION_URL || "http://localhost:3000/api/payments/create-checkout-session"
 };
 
 const PricingPage: React.FC = () => {
