@@ -1,4 +1,3 @@
-
 const API_URL = "http://localhost:3000/api/ai";
 
 export const getAIExplanation = async function* (prompt: string) {

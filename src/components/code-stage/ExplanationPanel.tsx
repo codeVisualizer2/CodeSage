@@ -149,7 +149,6 @@ const ExplanationPanel = ({
         </div>
 
         <CardContent className="pt-4">
-          <ScrollArea className="h-[250px] pr-4">
             <TabsContent value="explanation" className="mt-0">
               <div className="space-y-4">
                 <h3 className="text-lg font-medium text-gray-900 dark:text-gray-100">
@@ -289,28 +288,31 @@ const ExplanationPanel = ({
                   </Button>
                 </div>
 
-                {aiExplanation && (
-                  <div className="p-4 border border-gray-200 rounded-md bg-gray-50 dark:bg-gray-900 dark:border-gray-800">
-                    <h4 className="mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">
-                      AI Response
-                    </h4>
-                    <ReactMarkdown
-                      remarkPlugins={[remarkGfm]}
-                      rehypePlugins={[rehypeRaw, rehypeSanitize, rehypeHighlight]}
-                      components={{
-                        h1: ({node, ...props}) => <h1 className="mt-6 text-3xl font-bold" {...props} />,
-                        h2: ({node, ...props}) => <h2 className="mt-5 text-2xl font-semibold" {...props} />,
-                        p: ({node, ...props}) => <p className="my-2 text-white-800" {...props} />,
-                      }}
-                    >
-                      {aiExplanation}
-                  
-                    </ReactMarkdown>
-                  </div>
-                )}
+                <ScrollArea>
+
+                  {aiExplanation && (
+                    <div className="border border-gray-200 rounded-md h-[200px] p-4 bg-gray-50 dark:bg-gray-900 dark:border-gray-800">
+                      <h4 className="mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">
+                        AI Response
+                      </h4>
+                      <ReactMarkdown
+                        remarkPlugins={[remarkGfm]}
+                        rehypePlugins={[rehypeRaw, rehypeSanitize, rehypeHighlight]}
+                        components={{
+                          h1: ({node, ...props}) => <h1 className="mt-6 text-3xl font-bold" {...props} />,
+                          h2: ({node, ...props}) => <h2 className="mt-5 text-2xl font-semibold" {...props} />,
+                          p: ({node, ...props}) => <p className="my-2 text-white-800" {...props} />,
+                        }}
+                      >
+                        {aiExplanation}
+                    
+                      </ReactMarkdown>
+                    </div>
+                  )}
+                </ScrollArea>
               </div>
             </TabsContent>
-          </ScrollArea>
+
         </CardContent>
       </Tabs>
     </Card>
