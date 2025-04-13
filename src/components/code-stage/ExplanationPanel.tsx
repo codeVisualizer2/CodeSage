@@ -288,10 +288,9 @@ const ExplanationPanel = ({
                   </Button>
                 </div>
 
-                <ScrollArea>
-
+                <ScrollArea className="h-[300px]">
                   {aiExplanation && (
-                    <div className="border border-gray-200 rounded-md h-[200px] p-4 bg-gray-50 dark:bg-gray-900 dark:border-gray-800">
+                    <div className="p-4 border border-gray-200 rounded-md bg-gray-50 dark:bg-gray-900 dark:border-gray-800">
                       <h4 className="mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">
                         AI Response
                       </h4>
@@ -305,7 +304,6 @@ const ExplanationPanel = ({
                         }}
                       >
                         {aiExplanation}
-                    
                       </ReactMarkdown>
                     </div>
                   )}
