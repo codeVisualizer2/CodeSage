@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import {useState} from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
 import { ScrollArea } from "../ui/scroll-area";
@@ -8,8 +8,11 @@ import { Info, Code, BookOpen, MessageSquare, Brain } from "lucide-react";
 import { Button } from "../ui/button";
 import { Textarea } from "../ui/textarea";
 import { getAIExplanation } from "../../lib/api";
-import Markdown from 'react-markdown'
-import remarkGfm from "remark-gfm";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from 'remark-gfm';
+import rehypeRaw from 'rehype-raw';
+import rehypeSanitize from 'rehype-sanitize';
+import rehypeHighlight from 'rehype-highlight';
 
 interface ExplanationStep {
   id: string;
@@ -146,7 +149,6 @@ const ExplanationPanel = ({
         </div>
 
         <CardContent className="pt-4">
-          <ScrollArea className="h-[450px] pr-4">
             <TabsContent value="explanation" className="mt-0">
               <div className="space-y-4">
                 <h3 className="text-lg font-medium text-gray-900 dark:text-gray-100">
@@ -286,24 +288,29 @@ const ExplanationPanel = ({
                   </Button>
                 </div>
 
-                {aiExplanation && (
-                  <div className="p-4 border border-gray-200 rounded-md bg-gray-50 dark:bg-gray-900 dark:border-gray-800">
-                    <h4 className="mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">
-                      AI Response
-                    </h4>
-                    <Markdown
-                      remarkPlugins={[remarkGfm]}
-                      components={{
-                        p: ({node, ...props}) => <p className="text-sm text-gray-600 whitespace-pre-wrap dark:text-gray-400" {...props} />
-                      }}
-                    >
-                      {aiExplanation}
-                    </Markdown>
-                  </div>
-                )}
+                <ScrollArea className="h-[300px]">
+                  {aiExplanation && (
+                    <div className="p-4 border border-gray-200 rounded-md bg-gray-50 dark:bg-gray-900 dark:border-gray-800">
+                      <h4 className="mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">
+                        AI Response
+                      </h4>
+                      <ReactMarkdown
+                        remarkPlugins={[remarkGfm]}
+                        rehypePlugins={[rehypeRaw, rehypeSanitize, rehypeHighlight]}
+                        components={{
+                          h1: ({node, ...props}) => <h1 className="mt-6 text-3xl font-bold" {...props} />,
+                          h2: ({node, ...props}) => <h2 className="mt-5 text-2xl font-semibold" {...props} />,
+                          p: ({node, ...props}) => <p className="my-2 text-white-800" {...props} />,
+                        }}
+                      >
+                        {aiExplanation}
+                      </ReactMarkdown>
+                    </div>
+                  )}
+                </ScrollArea>
               </div>
             </TabsContent>
-          </ScrollArea>
+
         </CardContent>
       </Tabs>
     </Card>
